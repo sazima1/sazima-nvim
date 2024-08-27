@@ -52,18 +52,16 @@ return {
 						capabilities = lsp_capabilities,
 					})
 				end,
-				-- ["basedpyright"] = function()
-				--     lspconfig.basedpyright.setup({
-				--         capabilities = lsp_capabilities,
-				--         settings = {}
-				--     })
-				-- end,
-				-- ["pyright"] = function()
-				--     lspconfig.pyright.setup({
-				--         capabilities = lsp_capabilities,
-				--         settings = {}
-				--     })
-				-- end,
+				["pyright"] = function()
+					lspconfig.pyright.setup({
+						capabilities = lsp_capabilities,
+					})
+				end,
+				["ruff"] = function()
+					lspconfig.ruff.setup({
+						enable = false,
+					})
+				end,
 			},
 		})
 	end,
