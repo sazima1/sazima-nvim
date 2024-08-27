@@ -41,6 +41,17 @@ return {
 						},
 					})
 				end,
+				["bashls"] = function()
+					lspconfig.bashls.setup({
+						settings = {
+							bashIde = {
+								-- Disable shellcheck in bash-language-server. It conflicts with linter settings.
+								shellcheckPath = "",
+							},
+						},
+						capabilities = lsp_capabilities,
+					})
+				end,
 				-- ["basedpyright"] = function()
 				--     lspconfig.basedpyright.setup({
 				--         capabilities = lsp_capabilities,
