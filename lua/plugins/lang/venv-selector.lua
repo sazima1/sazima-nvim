@@ -8,7 +8,18 @@ return {
     lazy = false,
     branch = "regexp", -- This is the regexp branch, use this for the new version
     config = function()
-        require("venv-selector").setup()
+        require("venv-selector").setup({
+            settings = {
+                search = {
+                    w87_venv = {
+                        command = "fd python$ /usr/workspace/aeag/W87-0/.venv*/bin/"
+                    },
+                    fame_search = {
+                        command = "fd python$ /collab/usr/gapps/fame/*venv*/bin"
+                    }
+                }
+            }
+        })
     end,
     keys = {
         { ",v", "<cmd>VenvSelect<cr>" },
