@@ -1,30 +1,29 @@
 return {
-	"williamboman/mason.nvim",
-	dependencies = {
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
+	"WhoIsSethDaniel/mason-tool-installer.nvim",
 	config = function()
-		local mason = require("mason")
-
 		local mason_tool_installer = require("mason-tool-installer")
-
-		-- enable mason and configure icons
-		mason.setup({
-			ui = {
-				icons = {
-					package_installed = "✓",
-					package_pending = "➜",
-					package_uninstalled = "✗",
-				},
-			},
-		})
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"prettier",
-				"stylua",
+				-- LSP
+				"bashls",
+				"jsonls",
+				"lua_ls",
+				"markdown_oxide",
+				"matlab_ls",
+				"perlnavigator",
+				"pyright",
+				"texlab",
+				"yamlls",
+				-- debuggers
+				"bash-debug-adapter",
+				"debugpy",
+				-- formatters and linters
 				"ruff",
 				"markdownlint",
+				"prettier",
+				"stylua",
+				"markdown-toc",
 				"selene",
 				"shellcheck",
 				"vale",

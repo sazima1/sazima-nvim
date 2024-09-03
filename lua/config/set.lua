@@ -34,10 +34,14 @@ set.hlsearch = false
 set.smartcase = true
 set.termguicolors = true
 
+set.mouse = "a"
+
 set.signcolumn = "yes"
 
 set.title = true
 set.titlestring = "%F"
+set.showtabline = 2
+set.laststatus = 3
 
 -- VimTeX
 g.vimtex_view_general_viewer = "okular"
@@ -45,4 +49,3 @@ g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
 
 -- Python
 g.python3_host_prog = os.getenv("HOME") .. "/.local/venv/nvim/bin/python3"
-

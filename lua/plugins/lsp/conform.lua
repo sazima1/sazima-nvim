@@ -11,7 +11,7 @@ return {
 				sh = { "shfmt" },
 				latex = { "latexindent" },
 				bibtex = { "bibtex-tidy" },
-				markdown = { "prettier" },
+				markdown = { "prettier", "markdownlint", "markdown-toc" },
 				yaml = { "prettier" },
 			},
 			format_on_save = {

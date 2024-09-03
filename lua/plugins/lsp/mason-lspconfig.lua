@@ -3,25 +3,13 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 		"hrsh7th/cmp-nvim-lsp",
-		"neovim/nvim-lspconfig",
 	},
 	opts = true,
 	config = function()
+		require("mason").setup()
 		local lspconfig = require("lspconfig")
 		local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 		require("mason-lspconfig").setup({
-			ensure_installed = {
-				"bashls",
-				"jsonls",
-				"lua_ls",
-				"markdown_oxide",
-				"matlab_ls",
-				"perlnavigator",
-				"pyright",
-				"ruff",
-				"texlab",
-				"yamlls",
-			},
 			handlers = {
 				function(server)
 					lspconfig[server].setup({
