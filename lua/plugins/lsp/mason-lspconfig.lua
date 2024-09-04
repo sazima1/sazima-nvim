@@ -3,8 +3,8 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 		"hrsh7th/cmp-nvim-lsp",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
-	opts = true,
 	config = function()
 		require("mason").setup()
 		local lspconfig = require("lspconfig")
@@ -40,14 +40,40 @@ return {
 						capabilities = lsp_capabilities,
 					})
 				end,
-				["pyright"] = function()
-					lspconfig.pyright.setup({
+				-- ["pyright"] = function()
+				-- 	lspconfig.pyright.setup({
+				-- 		capabilities = lsp_capabilities,
+				-- 	})
+				-- end,
+				["basedpyright"] = function()
+					lspconfig.basedpyright.setup({
 						capabilities = lsp_capabilities,
+						settings = {
+							basedpyright = {
+								analysis = {
+									autoSearchPaths = true,
+									disableOrganizeImports = true,
+									autoImportCompletions = true,
+									diagnosticMode = "openFilesOnly",
+								},
+							},
+						},
 					})
 				end,
 				["ruff"] = function()
 					lspconfig.ruff.setup({
-						enable = false,
+						init_options = {
+							settings = {
+								showSyntaxErrors = false,
+								fixViolation = {
+									enable = false,
+								},
+								lineLength = 100,
+								format = {
+									preview = true,
+								},
+							},
+						},
 					})
 				end,
 			},

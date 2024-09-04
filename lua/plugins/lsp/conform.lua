@@ -1,13 +1,13 @@
 return {
 	"stevearc/conform.nvim",
 	dependencies = { "mason.nvim" },
-	event = { "BufReadPre", "BufNewFile" },
+	event = { "BufWritePre", "BufReadPre", "BufNewFile" },
 	cmd = "ConformInfo",
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
-				python = { "ruff" },
+				python = { "black", "isort" },
 				sh = { "shfmt" },
 				latex = { "latexindent" },
 				bibtex = { "bibtex-tidy" },
@@ -19,6 +19,13 @@ return {
 				timeout_ms = 500,
 				lsp_format = "fallback",
 			},
+			-- formatters = {
+			-- 	python = {
+			-- 		command = "black",
+			-- 		args = { "--line_length=100", "-" },
+			-- 		stdin = true,
+			-- 	},
+			-- },
 		})
 	end,
 }

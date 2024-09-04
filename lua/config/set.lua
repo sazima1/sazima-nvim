@@ -30,7 +30,7 @@ set.fileformats = "unix,dos"
 set.backup = false
 
 set.incsearch = true
-set.hlsearch = false
+set.hlsearch = true
 set.smartcase = true
 set.termguicolors = true
 

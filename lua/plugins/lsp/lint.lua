@@ -6,12 +6,11 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
 		events = { "BufWritePost", "BufReadPost", "InsertLeave" },
-		ensure_installed = { "markdownlint", "ruff", "selene", "shellcheck", "vale" },
 	},
 	config = function()
 		local lint = require("lint")
 		lint.linters_by_ft = {
-			python = { "ruff" },
+			python = { "pylint", "flake8", "mypy", "pydocstyle" },
 			lua = { "selene" },
 			markdown = { "markdownlint" },
 			sh = { "shellcheck" },

@@ -13,11 +13,15 @@ map("n", "<C-l>", "<C-w>l", { desc = "switch window right without the extra <C-w
 
 map("n", "<leader>fe", "<cmd>Neotree<CR>", { noremap = true, desc = "Toggle Neotree" })
 map("n", "<leader>te", "<cmd>Neotree toggle<CR>", { noremap = true, desc = "Toggle Neotree" })
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { noremap = true, desc = "Find files with Telescope" })
-map("n", "<leader>fg", "<cmd>Telescope grep_string<CR>", { noremap = true, desc = "Find files with Telescope" })
 
-map("n", "<M-up>", "<cmd>m .-2<CR>==", { noremap = true, desc = "Move a line up like alt-up in VSCode" })
-map("n", "<M-down>", "<cmd>m .+1<CR>==", { noremap = true, desc = "Move a line down like alt-up in VSCode" })
+local opts = { noremap = true, silent = true }
+-- Normal-mode commands
+map("n", "<C-down>", ":MoveLine(1)<CR>", opts)
+map("n", "<C-up>", ":MoveLine(-1)<CR>", opts)
+
+-- Visual-mode commands
+map("v", "<C-down>", ":MoveBlock(1)<CR>", opts)
+map("v", "<C-up>", ":MoveBlock(-1)<CR>", opts)
 
 map("n", "<C-u>", "<C-u>zz", { noremap = true, desc = "Half page up also recenters text" })
 map("n", "<C-d>", "<C-d>zz", { noremap = true, desc = "Half page down also recenters text" })
@@ -28,3 +32,9 @@ map("n", "Q", "@q", { noremap = true, desc = "Quick macro activation for tempora
 
 map("n", "<leader>a", "za", { noremap = true, desc = "Easier fold toggle combo" })
 map("n", "<leader>A", "zA", { noremap = true, desc = "Easier fold toggle combo" })
+
+map("n", "<C-n>", "<cmd>nohl<CR>")
+
+map("n", "<leader>ge", "<cmd>Neogit<CR>", { noremap = true, desc = "Open Neogit" })
+map("n", "<leader>dvo", "<cmd>DiffviewOpen<CR>", { noremap = true, desc = "Open Diffview" })
+map("n", "<leader>dvc", "<cmd>DiffviewClose<CR>", { noremap = true, desc = "Close Diffview" })
