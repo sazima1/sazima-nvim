@@ -1,8 +1,8 @@
-# Nvim Config
+# Neovim Config
 
 ## Introduction
 
-This is my personal Neovim Config that I use at home. A similar config can be found on my [work Github](https://github.com/sazima1).
+Neovim is a forked version of Vim that has developed along side it with the goal of further customization options and better plugin support and development.
 
 ## Goal
 
@@ -21,4 +21,11 @@ I keep general configuration (including lazy.nvim initialization) in `./lua/conf
 This is a Neovim config like any other, so all you need to do is:
 
 1. Make a backup of your current nvim config (optional but recommended): `mv ~/.config/nvim ~/.config/nvim.bkp`
-2. Clone this repo into the config folder: `git clone https://github.com/andysazima/sazima-nvim.git ~/.config/nvim`
+2. Clone this repo into the config folder: `git clone <this repo ssh> ~/.config/nvim`
+
+## SCF
+
+This will run just fine on SCF LC, but you need a few things:
+
+1. The correct Neovim binary on your PATH. This is easily done by using Hopper and moving an Nvim binary into a folder on your PATH (like ~/bin).
+2. All plugins installed properly. Lazy.nvim needs an internet connection to install plugins, so you can install all your plugins on the OCF with Lazy, then Hopper over the necessary files. This can be laborious, so I have made a set of scripts that make this easier for you at [nvim_transfer](https://rzlc.llnl.gov/gitlab/aeag/users/sazima1/neovim/neovim-transfer).

@@ -4,6 +4,7 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"zane-/cder.nvim",
+		"debugloop/telescope-undo.nvim",
 	},
 	keys = {
 		{
@@ -13,16 +14,28 @@ return {
 			{ noremap = true, desc = "Changing current working directory" },
 		},
 		{
+			"<leader>u",
+			"<cmd>Telescope undo<CR>",
+			mode = "n",
+			{ noremap = true, desc = "Changing current working directory" },
+		},
+		{
 			"<leader>ff",
-			"<cmd>Telescope find_files<CR>",
+			"<cmd>lua require('telescope.builtin').find_files({no_ignore=true})<CR>",
 			mode = "n",
 			{ noremap = true, desc = "Find files with Telescope" },
 		},
 		{
 			"<leader>fg",
-			"<cmd>Telescope grep_string<CR>",
+			"<cmd>Telescope live_grep<CR>",
 			mode = "n",
-			{ noremap = true, desc = "Find files with Telescope" },
+			{ noremap = true, desc = "Live grep with Telescope" },
+		},
+		{
+			"<leader>kt",
+			"<cmd>Telescope colorscheme<CR>",
+			mode = "n",
+			{ noremap = true, desc = "Change colorscheme with Telescope" },
 		},
 	},
 	config = function()
@@ -38,7 +51,7 @@ return {
 					dir_command = {
 						"fd",
 						"--type=d",
-						"--type=l",
+						"--max-depth=4",
 						"--search-path",
 						os.getenv("HOME"),
 						"--search-path",
@@ -46,25 +59,12 @@ return {
 						"--search-path",
 						os.getenv("LUSTRE"),
 					},
-					-- dir_command = {
-					-- 	"fd",
-					-- 	"--hidden",
-					-- 	"--type",
-					-- 	"directory",
-					-- 	"--type",
-					-- 	"symlink",
-					-- 	"--search-path",
-					-- 	"$HOME",
-					-- 	"--search-path",
-					-- 	"$WORKSPACE",
-					-- 	"--search-path",
-					-- 	"$LUSTRE"
-					-- },
 					pager_command = "bat",
 					previewer_command = "ls -a --color=always",
 				},
 			},
 		})
-		pcall(require("telescope").load_extension("cder"))
+		require("telescope").load_extension("cder")
+		require("telescope").load_extension("undo")
 	end,
 }

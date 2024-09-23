@@ -30,8 +30,8 @@ return {
 				"perlnavigator",
 				"prettier",
 				"pydocstyle",
-				"pyflakes",
 				"pylint",
+				"ruff",
 				"selene",
 			},
 		})

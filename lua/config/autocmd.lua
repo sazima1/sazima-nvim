@@ -30,7 +30,7 @@ autocmd({ "BufWritePre" }, {
 local groupSetSyntax = augroup("groupSetSyntax", {})
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = groupSetSyntax,
-	pattern = { "*.tg", "*.part", "*.lc", "*.mtrl", "*.key", "trugrdi" },
+	pattern = { "*.tg", "*.part", "*.lc", "*.mtrl", "*.key", "*.ig", "trugrdi" },
 	callback = function()
 		set.filetype = "ingrid"
 	end,
@@ -50,19 +50,4 @@ autocmd({ "BufWritePre" }, {
 	callback = function(args)
 		require("conform").format({ bufnr = args.buf })
 	end,
-})
-
-local groupLspAttach = augroup("lsp_attach_disable_ruff_hover", { clear = true })
-autocmd({ "LspAttach" }, {
-	group = groupLspAttach,
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if client == nil then
-			return
-		end
-		if client.name == "Ruff" then
-			client.server_capabilities.hoverProvider = false
-		end
-	end,
-	desc = "LSP: Disable hover capability from Ruff",
 })

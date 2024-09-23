@@ -27,5 +27,11 @@ return {
 				width = 50,
 			},
 		})
+
+		-- Keymaps
+		local map = vim.keymap.set
+
+		map("n", "<leader>fe", "<cmd>Neotree<CR>", { noremap = true, desc = "Toggle Neotree" })
+		map("n", "<leader>te", "<cmd>Neotree toggle<CR>", { noremap = true, desc = "Toggle Neotree" })
 	end,
 }

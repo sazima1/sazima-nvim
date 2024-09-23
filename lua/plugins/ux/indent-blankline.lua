@@ -3,6 +3,10 @@ return {
 	main = "ibl",
 	config = function()
 		require("ibl").setup({
+			indent = {
+				char = "│",
+				tab_char = "│",
+			},
 			scope = { enabled = false },
 			exclude = {
 				filetypes = {
@@ -20,5 +24,10 @@ return {
 				},
 			},
 		})
+
+		-- Keymaps
+		local map = vim.keymap.set
+
+		map("n", "<leader>ig", "<cmd>IBLToggle")
 	end,
 }

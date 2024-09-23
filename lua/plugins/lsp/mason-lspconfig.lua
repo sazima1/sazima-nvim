@@ -11,11 +11,6 @@ return {
 		local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 		require("mason-lspconfig").setup({
 			handlers = {
-				function(server)
-					lspconfig[server].setup({
-						capabilities = lsp_capabilities,
-					})
-				end,
 				["lua_ls"] = function()
 					lspconfig.lua_ls.setup({
 						capabilities = lsp_capabilities,
@@ -64,19 +59,40 @@ return {
 					lspconfig.ruff.setup({
 						init_options = {
 							settings = {
-								showSyntaxErrors = false,
+								showSyntaxErrors = true,
 								fixViolation = {
 									enable = false,
 								},
 								lineLength = 100,
-								format = {
-									preview = true,
-								},
 							},
 						},
 					})
 				end,
+				function(server)
+					lspconfig[server].setup({
+						capabilities = lsp_capabilities,
+					})
+				end,
 			},
+		})
+
+		--Commands
+
+		local augroup = vim.api.nvim_create_augroup
+		local autocmd = vim.api.nvim_create_autocmd
+		local groupLspAttach = augroup("lsp_attach_disable_ruff_hover", { clear = true })
+		autocmd({ "LspAttach" }, {
+			group = groupLspAttach,
+			callback = function(args)
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				if client == nil then
+					return
+				end
+				if client.name == "ruff" or client.name == "Ruff" then
+					client.server_capabilities.hoverProvider = false
+				end
+			end,
+			desc = "LSP: Disable hover capability from Ruff",
 		})
 	end,
 }

@@ -19,6 +19,8 @@ set.autoread = true
 set.sessionoptions = "resize,winpos,winsize,tabpages,folds,blank,buffers,help,options"
 set.tabpagemax = 1000
 
+set.foldmethod = "manual"
+
 set.wrap = true
 set.linebreak = true
 set.list = false

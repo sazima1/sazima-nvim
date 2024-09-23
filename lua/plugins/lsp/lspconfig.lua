@@ -36,6 +36,7 @@ return {
 				bufmap("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>")
 				bufmap("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>")
 				bufmap("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
+				bufmap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
 				bufmap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>")
 				if vim.lsp.inlay_hint then
 					bufmap("n", "gi", "<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<cr>")

@@ -4,23 +4,17 @@ return {
 		"williamboman/mason.nvim",
 	},
 	event = { "BufReadPre", "BufNewFile" },
-	opts = {
-		events = { "BufWritePost", "BufReadPost", "InsertLeave" },
-	},
 	config = function()
 		local lint = require("lint")
 		lint.linters_by_ft = {
-			python = { "pylint", "flake8", "mypy", "pydocstyle" },
+			python = { "ruff", "mypy" },
 			lua = { "selene" },
 			markdown = { "markdownlint" },
 			sh = { "shellcheck" },
 			latex = { "vale" },
-			-- Use the "*" filetype to run linters on all filetypes.
-			-- ['*'] = { 'global linter' },
-			-- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
-			-- ['_'] = { 'fallback linter' },
-			-- ["*"] = { "typos" },
 		}
+
+		lint.linters.markdownlint.args = { "--disable", "MD013", "--" }
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
