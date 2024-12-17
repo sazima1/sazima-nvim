@@ -10,25 +10,21 @@ return {
 			dependencies = { "nvim-lua/plenary.nvim" },
 		},
 	},
-	lazy = false,
+	events = "VeryLazy",
 	branch = "regexp", -- This is the regexp branch, use this for the new version
-	config = function()
-		require("venv-selector").setup({
-			settings = {
-				search = {
-					w87_venv = {
-						command = "fd python$ /usr/workspace/aeag/W87-0/.venv*/bin/",
-					},
-					fame_search = {
-						command = "fd python$ /collab/usr/gapps/fame/*venv*/bin",
-					},
+	keys = {
+		{ "<leader>yv", "<cmd>VenvSelect<cr>", mode = "n", desc = "Change current Python virtual environment" },
+	},
+	opts = {
+		settings = {
+			search = {
+				w87_venv = {
+					command = "fd python$ /usr/workspace/aeag/W87-0/.venv*/bin/",
+				},
+				fame_search = {
+					command = "fd python$ /collab/usr/gapps/fame/*venv*/bin",
 				},
 			},
-		})
-
-		-- Keymaps
-		local map = vim.keymap.set
-
-		map("n", "<leader>yv", "<cmd>VenvSelect<cr>", { desc = "Change current Python virtual environment" })
-	end,
+		},
+	},
 }

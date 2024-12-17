@@ -1,8 +1,9 @@
 return {
 	"mireq/luasnip-snippets",
 	dependencies = { "L3MON4D3/LuaSnip" },
-	init = function()
+	opts = {},
+	config = function(_, opts)
 		-- Mandatory setup function
-		require("luasnip_snippets.common.snip_utils").setup({})
+		require("luasnip_snippets.common.snip_utils").setup(opts)
 	end,
 }

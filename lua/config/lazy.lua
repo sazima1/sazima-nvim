@@ -12,4 +12,21 @@ require("lazy").setup({
 	defaults = {
 		-- lazy = true,
 	},
+	performance = {
+		cache = {
+			enabled = true,
+		},
+		rtp = {
+			disabled_plugins = {
+				-- "matchit",
+				-- "matchparen",
+				"netrwPlugin",
+				"gzip",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
 })

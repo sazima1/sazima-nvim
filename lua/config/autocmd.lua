@@ -112,3 +112,18 @@ autocmd({ "FileType" }, {
 		vim.opt_local.foldenable = false
 	end,
 })
+
+-- -- Toggle term mappings
+-- function set_terminal_keymaps()
+-- 	local opts = { buffer = 0 }
+-- 	local termmap = vim.keymap.set
+-- 	termmap("t", "<C-space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+-- 	termmap("t", "<esc>", [[<C-\><C-n>]], opts)
+-- 	-- termmap("t", "jk", [[<C-\><C-n>]], opts)
+-- 	termmap("ckt", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
+-- 	termmap("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
+-- 	termmap("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
+-- 	termmap("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
+-- 	termmap("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
+-- end
+-- vim.cmd([[autocmd! TermOpen term://* lua set_terminal_keymaps()]])

@@ -106,7 +106,6 @@ return {
 						"%L",
 						icon = "",
 					},
-					"spelunk",
 				},
 				lualine_c = {
 					{

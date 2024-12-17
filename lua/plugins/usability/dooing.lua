@@ -1,10 +1,11 @@
 return {
 	"atiladefreitas/dooing",
-	config = function()
-		require("dooing").setup({
-			keymaps = {
-				toggle_window = "<leader><leader>t",
-			},
-		})
-	end,
+	keys = {
+		{ "<leader><leader>t", "<Cmd>Dooing<CR>", mode = { "n" }, desc = "Show to-do list" },
+	},
+	opts = {
+		keymaps = {
+			toggle_window = "<leader><leader>t",
+		},
+	},
 }

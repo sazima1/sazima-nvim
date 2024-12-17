@@ -65,8 +65,10 @@ return {
 			animate = { enabled = false },
 		},
 		input = { enabled = true },
+		lazygit = { enabled = true },
 		notifier = { enabled = true },
 		quickfile = { enabled = true },
+		-- terminal = { enabled = true },
 		words = { enabled = true },
 	},
 	config = function(_, opts)

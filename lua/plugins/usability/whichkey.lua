@@ -10,15 +10,17 @@ return {
 			desc = "Buffer Local Keymaps (which-key)",
 		},
 	},
-	config = function()
+	opts = {
+		preset = "helix",
+	},
+	config = function(_, opts)
 		local wk = require("which-key")
 
-		wk.setup({
-			preset = "helix",
-		})
+		wk.setup(opts)
+
 		local maps = {
 			-- Groups
-			{ "<leader>b", desc = "Bookmarks (Spelunk)", icon = "" },
+			-- { "<leader>b", desc = "Bookmarks (Spelunk)", icon = "" },
 			{ "<leader>d", desc = "Debugging" },
 			{ "<leader>f", desc = "File Actions" },
 			{ "<leader>g", desc = "Git" },
@@ -39,7 +41,6 @@ return {
 			{ "<leader>p", icon = "󰒮" },
 			{ "<leader>o", icon = "󰈢" },
 		}
-
 		wk.add(maps, {})
 	end,
 }

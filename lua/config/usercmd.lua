@@ -21,3 +21,4 @@ usercmd("Format", function(args)
 	end
 	require("conform").format({ async = true, lsp_format = "fallback", range = range })
 end, { range = true, desc = "Format current buffer" })
+usercmd("Notifications", "lua Snacks.notifier.show_history()", {})
