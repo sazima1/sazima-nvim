@@ -1,0 +1,14 @@
+# Markdown lint configuration
+
+# enable all rule defaults
+default = true
+
+# MD003 - Heading style
+MD003 = false
+
+# MD004 - Unordered list style
+MD004.style = "sublist"
+
+# MD013 - Line length
+MD013 = false
+

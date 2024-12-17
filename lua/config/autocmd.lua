@@ -2,6 +2,7 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local set = vim.opt
 
+-- Highlight what you yanked
 local groupHighlightYank = augroup("groupHighlightYank", {})
 autocmd({ "TextYankPost" }, {
 	group = groupHighlightYank,
@@ -14,6 +15,7 @@ autocmd({ "TextYankPost" }, {
 	end,
 })
 
+-- Remove whitespace when files are saved
 local groupRemoveWhiteSpace = augroup("groupRemoveWhiteSpace", {})
 autocmd({ "BufWritePre" }, {
 	group = groupRemoveWhiteSpace,
@@ -27,6 +29,7 @@ autocmd({ "BufWritePre" }, {
 	end,
 })
 
+-- Set filetype for various AEAG groups (and bash)
 local groupSetSyntax = augroup("groupSetSyntax", {})
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = groupSetSyntax,
@@ -37,17 +40,75 @@ autocmd({ "BufNewFile", "BufRead" }, {
 })
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = groupSetSyntax,
-	pattern = { "*.assembly", "*.subassembly" },
+	pattern = { "*.assembly*", "*.subassembly*" },
 	callback = function()
 		set.filetype = "diablo"
 	end,
 })
+autocmd({ "BufNewFile", "BufRead" }, {
+	group = groupSetSyntax,
+	pattern = { "*.bash*" },
+	callback = function()
+		set.filetype = "bash"
+	end,
+})
 
+-- Format on save
 local groupFormatOnSave = augroup("groupFormatOnSave", {})
 autocmd({ "BufWritePre" }, {
 	group = groupFormatOnSave,
 	pattern = "*",
 	callback = function(args)
 		require("conform").format({ bufnr = args.buf })
+	end,
+})
+
+-- Disable the gutter for terminals
+local groupTermOpen = augroup("TermOpen", {})
+autocmd({ "TermOpen" }, {
+	group = groupTermOpen,
+	pattern = "*",
+	callback = function()
+		vim.wo.number = false
+		vim.wo.relativenumber = false
+		vim.wo.signcolumn = "no"
+	end,
+	desc = "Disable gutter in terminal",
+})
+
+-- Enable linting
+local groupLinting = augroup("groupLinting", { clear = true })
+autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+	group = groupLinting,
+	callback = function()
+		local M = {}
+		-- Prevents linting all the time (stolen from LazyVim)
+		function M.debounce(ms, fn)
+			local timer = vim.uv.new_timer()
+			return function(...)
+				local argv = { ... }
+				timer:start(ms, 0, function()
+					timer:stop()
+					vim.schedule_wrap(fn)(unpack(argv))
+				end)
+			end
+		end
+		-- Lints
+		function M.lint(ms)
+			M.debounce(ms, require("lint").try_lint())
+		end
+		-- Run the modified linting operation every N milliseconds
+		M.lint(100)
+	end,
+})
+
+-- Disable ufo folding for certain buffer types
+local groupUfo = augroup("groupUfo", {})
+autocmd({ "FileType" }, {
+	group = groupUfo,
+	pattern = { "neo-tree", "snacks_dashboard", "dashboard", "NeogitStatus" },
+	callback = function()
+		require("ufo").detach()
+		vim.opt_local.foldenable = false
 	end,
 })
