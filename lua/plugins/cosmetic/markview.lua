@@ -1,15 +1,10 @@
 return {
 	"OXY2DEV/markview.nvim",
-	-- lazy = false, -- Recommended
-	ft = "markdown", -- If you decide to lazy-load anyway
+	ft = "markdown",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
 		"raddari/last-color.nvim",
-	},
-	keys = {
-		{ "<C-b>", "<cmd>CheckboxNext<CR>", mode = { "n", "i" }, noremap = true, desc = "Next checkbox state" },
-		{ "<C-g>", "<cmd>CheckboxNextSet<CR>", mode = { "n", "i" }, noremap = true, desc = "Next checkbox state set" },
 	},
 	opts = function()
 		local presets = require("markview.presets")

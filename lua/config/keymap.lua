@@ -13,36 +13,6 @@ map("n", "<C-j>", "<C-w>j", { desc = "Switch window down without the extra <C-w>
 map("n", "<C-k>", "<C-w>k", { desc = "Switch window up without the extra <C-w> press" })
 map("n", "<C-l>", "<C-w>l", { desc = "Switch window right without the extra <C-w> press" })
 
--- Tab management - Like Tmux
--- map("n", "<C-s>c", "<Cmd>$tabnew<CR>")
--- map("n", "<C-s>d", "<Cmd>tabclose<CR>")
--- map("n", "<C-s>n", "gt")
--- map("n", "<C-s>p", "gT")
--- map("n", "<C-s>l", "<Cmd>tabs<CR>")
--- map("n", "<C-s>1", "1gt")
--- map("n", "<C-s>2", "2gt")
--- map("n", "<C-s>3", "3gt")
--- map("n", "<C-s>4", "4gt")
--- map("n", "<C-s>5", "5gt")
--- map("n", "<C-s>6", "6gt")
--- map("n", "<C-s>7", "7gt")
--- map("n", "<C-s>8", "8gt")
--- map("n", "<C-s>9", "9gt")
--- map("t", "<C-s>c", "<C-\\><C-n><Cmd>$tabnew<CR>")
--- map("t", "<C-s>d", "<C-\\><C-n><Cmd>tabclose<CR>")
--- map("t", "<C-s>n", "<C-\\><C-n>gt")
--- map("t", "<C-s>p", "<C-\\><C-n>gT")
--- map("t", "<C-s>l", "<C-\\><C-n><Cmd>tabs<CR>")
--- map("t", "<C-s>1", "<C-\\><C-n>1gt")
--- map("t", "<C-s>2", "<C-\\><C-n>2gt")
--- map("t", "<C-s>3", "<C-\\><C-n>3gt")
--- map("t", "<C-s>4", "<C-\\><C-n>4gt")
--- map("t", "<C-s>5", "<C-\\><C-n>5gt")
--- map("t", "<C-s>6", "<C-\\><C-n>6gt")
--- map("t", "<C-s>7", "<C-\\><C-n>7gt")
--- map("t", "<C-s>8", "<C-\\><C-n>8gt")
--- map("t", "<C-s>9", "<C-\\><C-n>9gt")
---
 -- Easier window resizing
 map("n", "=", "<cmd>vertical resize +5<CR>", { desc = "Make window larger vertically" })
 map("n", "-", "<cmd>vertical resize -5<CR>", { desc = "Make window smaller vertically" })
@@ -76,6 +46,41 @@ map("n", "<leader>yr", "<Cmd>!python3 %<CR>", { desc = "Run currently open Pytho
 -- Suspend
 map("n", "<leader><leader>s", "<Cmd>suspend<CR>", { desc = "Suspend Neovim and bring up the parent terminal. Use command `fg` to resume the Neovim session." })
 
--- -- THESE MAPS MAKE TMUX WINDOWS CRASH WITH CLIPBOARD ON. JUST USE TMUX COPYING WITH `prefix + y`
--- map({ "n", "v" }, "<leader>y", '"+y', { noremap = true, desc = "Yank to clipboard" })
--- map({ "n", "v" }, "<leader>p", '"+p', { noremap = true, desc = "Paste from clipboard" })
+-- Remove Whitespace
+map("n", "<leader>yw", function()
+	local save_cursor = vim.fn.getpos(".")
+	pcall(function()
+		vim.cmd([[%s/\s\+$//e]])
+	end)
+	vim.fn.setpos(".", save_cursor)
+end, { noremap = true, desc = "Remove extra whitespace from file" })
+
+-- Profiling
+map("n", "<leader><leader>ps", function()
+	vim.cmd([[
+		:profile start /tmp/nvim-profile.log
+		:profile func *
+		:profile file *
+	]])
+end, { desc = "Profile Start" })
+
+vim.keymap.set("n", "<leader><leader>pe", function()
+	vim.cmd([[
+		:profile stop
+		:e /tmp/nvim-profile.log
+	]])
+end, { desc = "Profile End" })
+
+vim.keymap.set("n", "<leader><leader>pc", function()
+	vim.cmd([[
+		:profile continue
+		:e /tmp/nvim-profile.log
+	]])
+end, { desc = "Profile End" })
+
+vim.keymap.set("n", "<leader><leader>pp", function()
+	vim.cmd([[
+		:profile pause
+		:e /tmp/nvim-profile.log
+	]])
+end, { desc = "Profile End" })

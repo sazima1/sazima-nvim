@@ -1,6 +1,6 @@
 return {
 	"lervag/vimtex",
-	lazy = true,
+	ft = { "tex", "latex" },
 	config = function()
 		local g = vim.g
 		--global vimtex settings

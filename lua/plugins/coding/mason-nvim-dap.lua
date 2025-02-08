@@ -4,6 +4,11 @@ return {
 		"mfussenegger/nvim-dap",
 		"williamboman/mason.nvim",
 	},
-	opts = {},
-	lazy = true,
+	cmd = { "DapInstall", "DapUninstall" },
+	opts = {
+		ensure_installed = {
+			"python",
+			"bash",
+		},
+	},
 }

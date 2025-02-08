@@ -3,13 +3,30 @@ return {
 	version = "v2.*",
 	build = "make install_jsregexp",
 	event = "InsertEnter",
+	dependencies = {
+		-- {
+		-- 	"rafamadriz/friendly-snippets",
+		-- 	opts = {},
+		-- 	config = function(_, opts)
+		-- 		require("luasnip.loaders.from_vscode").lazy_load()
+		-- 		require("luasnip.loaders.from_lua").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
+		-- 	end,
+		-- },
+		-- {
+		-- 	"mireq/luasnip-snippets",
+		-- 	opts = {},
+		-- 	config = function(_, opts)
+		-- 		require("luasnip_snippets.common.snip_utils").setup(opts)
+		-- 	end,
+		-- },
+	},
 	opts = function()
 		local opts = {
 			update_events = { "TextChanged", "TextChangedI" },
 			enable_autosnippets = true,
-			store_selection_keys = "<Tab>",
-			load_ft_func = require("luasnip_snippets.common.snip_utils").load_ft_func,
-			ft_func = require("luasnip_snippets.common.snip_utils").ft_func,
+			-- store_selection_keys = "<Tab>",
+			-- load_ft_func = require("luasnip_snippets.common.snip_utils").load_ft_func,
+			-- ft_func = require("luasnip_snippets.common.snip_utils").ft_func,
 		}
 		return opts
 	end,

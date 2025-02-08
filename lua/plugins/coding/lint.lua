@@ -16,7 +16,7 @@ return {
 	config = function()
 		local lint = require("lint")
 		lint.linters_by_ft = {
-			python = { "ruff", "mypy", "pylint" },
+			python = { "ruff", "mypy" },
 			lua = { "selene" },
 			markdown = { "markdownlint" },
 			sh = { "shellcheck" },

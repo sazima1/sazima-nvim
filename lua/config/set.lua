@@ -54,9 +54,10 @@ set.mouse = "i"
 set.showtabline = 0
 set.laststatus = 3
 
--- VimTeX
+-- VimTeX and LaTeX
 g.vimtex_view_general_viewer = "okular"
 g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
+g.tex_flavor = "latex"
 
 -- Python
 -- g.python3_host_prog = os.getenv("HOME") .. "/.local/venv/nvim/bin/python3"

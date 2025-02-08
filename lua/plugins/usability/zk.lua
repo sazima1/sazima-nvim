@@ -1,5 +1,22 @@
 return {
 	"zk-org/zk-nvim",
+	cmd = {
+		"ZkNew",
+		"ZkIndex",
+		"ZkNewFromTitleSelection",
+		"ZkNewFromContentSelection",
+		"ZkCd",
+		"ZkNotes",
+		"ZkBuffers",
+		"ZkBacklinks",
+		"ZkLinks",
+		"ZkInsertLink",
+		"ZkMatch",
+		"ZkTags",
+		"ZkOrphans",
+		"ZkRecents",
+		"ZkDaily",
+	},
 	opts = {
 		picker = "telescope",
 	},
@@ -85,7 +102,7 @@ return {
 		},
 	},
 	init = function()
-		vim.env.ZK_NOTEBOOK_DIR = "~/.asazima/notes"
+		vim.env.ZK_NOTEBOOK_DIR = os.getenv("HOME") .. "/.sazima1/notes"
 	end,
 	config = function(_, opts)
 		local zk = require("zk")
@@ -102,5 +119,11 @@ return {
 
 		commands.add("ZkOrphans", make_edit_fn({ orphan = true }, { title = "Zk Orphans" }))
 		commands.add("ZkRecents", make_edit_fn({ createdAfter = "2 weeks ago" }, { title = "Zk Recents" }))
+
+		local usercmd = vim.api.nvim_create_user_command
+		usercmd("ZkDaily", function()
+			vim.cmd([[cd ~/.sazima1/notes]])
+			vim.cmd([[ZkNew { dir = 'daily' }]])
+		end, {})
 	end,
 }

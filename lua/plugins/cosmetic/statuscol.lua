@@ -7,6 +7,8 @@ return {
 		local builtin = require("statuscol.builtin")
 		local opts = {
 			relculright = true,
+			ft_ignore = { "snacks_dashboard" },
+			thousands = ",",
 			segments = {
 				{
 					sign = {

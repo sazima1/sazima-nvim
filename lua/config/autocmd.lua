@@ -16,18 +16,18 @@ autocmd({ "TextYankPost" }, {
 })
 
 -- Remove whitespace when files are saved
-local groupRemoveWhiteSpace = augroup("groupRemoveWhiteSpace", {})
-autocmd({ "BufWritePre" }, {
-	group = groupRemoveWhiteSpace,
-	pattern = "*",
-	callback = function()
-		local save_cursor = vim.fn.getpos(".")
-		pcall(function()
-			vim.cmd([[%s/\s\+$//e]])
-		end)
-		vim.fn.setpos(".", save_cursor)
-	end,
-})
+-- local groupRemoveWhiteSpace = augroup("groupRemoveWhiteSpace", {})
+-- autocmd({ "BufWritePre" }, {
+-- 	group = groupRemoveWhiteSpace,
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		local save_cursor = vim.fn.getpos(".")
+-- 		pcall(function()
+-- 			vim.cmd([[%s/\s\+$//e]])
+-- 		end)
+-- 		vim.fn.setpos(".", save_cursor)
+-- 	end,
+-- })
 
 -- Set filetype for various AEAG groups (and bash)
 local groupSetSyntax = augroup("groupSetSyntax", {})
@@ -40,7 +40,7 @@ autocmd({ "BufNewFile", "BufRead" }, {
 })
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = groupSetSyntax,
-	pattern = { "*.assembly*", "*.subassembly*" },
+	pattern = { "*.assembly*", "*.subassembly*", "*.diablo*", "*.dbl*" },
 	callback = function()
 		set.filetype = "diablo"
 	end,
@@ -81,24 +81,28 @@ local groupLinting = augroup("groupLinting", { clear = true })
 autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 	group = groupLinting,
 	callback = function()
-		local M = {}
-		-- Prevents linting all the time (stolen from LazyVim)
-		function M.debounce(ms, fn)
-			local timer = vim.uv.new_timer()
-			return function(...)
-				local argv = { ... }
-				timer:start(ms, 0, function()
-					timer:stop()
-					vim.schedule_wrap(fn)(unpack(argv))
-				end)
-			end
-		end
-		-- Lints
-		function M.lint(ms)
-			M.debounce(ms, require("lint").try_lint())
-		end
-		-- Run the modified linting operation every N milliseconds
-		M.lint(100)
+		require("lint").try_lint()
+
+		-- This is a previous autocmd sorta stolen but not well implemented that slows everything
+		-- down. Had to comment it out. Maybe can reimplement some day.
+		-- local M = {}
+		-- -- Prevents linting all the time (stolen from LazyVim)
+		-- function M.debounce(ms, fn)
+		-- 	local timer = vim.uv.new_timer()
+		-- 	return function(...)
+		-- 		local argv = { ... }
+		-- 		timer:start(ms, 0, function()
+		-- 			timer:stop()
+		-- 			vim.schedule_wrap(fn)(unpack(argv))
+		-- 		end)
+		-- 	end
+		-- end
+		-- -- Lints
+		-- function M.lint(ms)
+		-- 	M.debounce(ms, require("lint").try_lint())
+		-- end
+		-- -- Run the modified linting operation every N milliseconds
+		-- M.lint(100)
 	end,
 })
 
@@ -113,17 +117,14 @@ autocmd({ "FileType" }, {
 	end,
 })
 
--- -- Toggle term mappings
--- function set_terminal_keymaps()
--- 	local opts = { buffer = 0 }
--- 	local termmap = vim.keymap.set
--- 	termmap("t", "<C-space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
--- 	termmap("t", "<esc>", [[<C-\><C-n>]], opts)
--- 	-- termmap("t", "jk", [[<C-\><C-n>]], opts)
--- 	termmap("ckt", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
--- 	termmap("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
--- 	termmap("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
--- 	termmap("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
--- 	termmap("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
--- end
--- vim.cmd([[autocmd! TermOpen term://* lua set_terminal_keymaps()]])
+-- Disable automatic commenting of next line
+local groupComments = augroup("groupComments", {})
+autocmd("FileType", {
+	pattern = "*",
+	group = groupComments,
+	callback = function()
+		vim.opt.formatoptions:append({ "c" })
+		vim.opt.formatoptions:remove({ "r", "o" })
+	end,
+	desc = "Disable New Line Comment",
+})

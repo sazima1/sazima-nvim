@@ -7,13 +7,14 @@ return {
 		"debugloop/telescope-undo.nvim",
 		-- "JoseConseco/telescope_sessions_picker.nvim",
 	},
+	cmd = "Telescope",
 	keys = {
 		{
-			"<leader>cd",
+			"<leader><leader>c",
 			"<Cmd>Telescope cder<CR>",
 			mode = "n",
 			noremap = true,
-			desc = "Changing current working directory",
+			desc = "Changing current working directory (Telescope)",
 		},
 		{
 			"<leader>u",
@@ -49,22 +50,30 @@ return {
 				dir_command = {
 					"fd",
 					"--type=d",
-					"--max-depth=6",
+					"--max-depth=2",
 					"--search-path",
 					os.getenv("HOME"),
 					"--search-path",
 					os.getenv("WORKSPACE"),
 					"--search-path",
+					os.getenv("WORKSPACE") .. "projects",
+					"--search-path",
 					os.getenv("LUSTRE"),
 					"--hidden",
 					"--search-path",
-					"~/.sazima1/",
+					os.getenv("HOME") .. ".sazima1",
 				},
 				pager_command = "bat",
 				previewer_command = "ls -a --color=always",
-			},
-			persisted = {
-				layout_config = { width = 0.55, height = 0.75 },
+				entry_maker = function(line)
+					return {
+						value = line,
+						display = function(entry)
+							return "  " .. line:gsub(os.getenv("HOME") .. "/", "~/"), { { { 1, 3 }, "Directory" } }
+						end,
+						ordinal = line,
+					}
+				end,
 			},
 		},
 		pickers = {

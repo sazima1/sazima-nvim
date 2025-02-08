@@ -1,5 +1,8 @@
 return {
 	"WhoIsSethDaniel/mason-tool-installer.nvim",
+	dependencies = {
+		"williamboman/mason.nvim",
+	},
 	lazy = true,
 	cmd = { "MasonToolsInstall", "MasonToolsUninstall", "MasonToolsUpdate", "MasonToolsUpdateSync", "MasonToolsClean" },
 	opts = {
@@ -18,9 +21,7 @@ return {
 			"markdown-oxide",
 			"markdownlint",
 			"marksman",
-			"matlab-language-server",
 			"mypy",
-			"perlnavigator",
 			"prettierd",
 			"pylint",
 			"ruff",

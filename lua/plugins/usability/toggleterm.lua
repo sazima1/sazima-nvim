@@ -1,7 +1,7 @@
 return {
 	"akinsho/toggleterm.nvim",
 	version = "*",
-	enable = false,
+	-- enabled = false,
 	keys = {
 		{ [[<C-\>]], "<Cmd>ToggleTerm<CR>", mode = "n", "Open terminal" },
 		{ "<leader>th", "<Cmd>ToggleTerm direction=horizontal<CR>", mode = "n", desc = "Open terminal with direction = horizontal" },
