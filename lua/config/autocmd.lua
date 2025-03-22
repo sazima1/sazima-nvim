@@ -1,6 +1,7 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local set = vim.opt
+local set_local = vim.opt_local
 
 -- Highlight what you yanked
 local groupHighlightYank = augroup("groupHighlightYank", {})
@@ -49,7 +50,17 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	group = groupSetSyntax,
 	pattern = { "*.bash*" },
 	callback = function()
-		set.filetype = "bash"
+		set.filetype = "sh"
+	end,
+})
+
+-- Turn on word wrap for word processing file extensions
+local groupWordWrap = augroup("groupWordWrap", {})
+autocmd({ "BufNewFile", "BufRead" }, {
+	group = groupWordWrap,
+	pattern = { "*.tex", "*.latex", "*.md", "*.txt", "*.text" },
+	callback = function()
+		set_local.wrap = true
 	end,
 })
 
@@ -110,7 +121,7 @@ autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 local groupUfo = augroup("groupUfo", {})
 autocmd({ "FileType" }, {
 	group = groupUfo,
-	pattern = { "neo-tree", "snacks_dashboard", "dashboard", "NeogitStatus" },
+	pattern = { "snacks_dashboard" },
 	callback = function()
 		require("ufo").detach()
 		vim.opt_local.foldenable = false

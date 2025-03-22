@@ -1,5 +1,21 @@
 -- ORDER OF LOADING MATTERS
 
+----------- Profile Startup with `PROF=1 nvim` --------------
+if vim.env.PROF then
+	-- example for lazy.nvim
+	-- change this to the correct path for your plugin manager
+	local snacks = vim.fn.stdpath("data") .. "/lazy/snacks.nvim"
+	vim.opt.rtp:append(snacks)
+	require("snacks.profiler").startup({
+		startup = {
+			event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
+			-- event = "UIEnter",
+			-- event = "VeryLazy",
+		},
+	})
+end
+-------------------------------------------------------------
+
 ----------- Bootstrap lazy.nvim --------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -38,3 +54,22 @@ require("config.colorscheme")
 -- Load auto commands and user commands after all plugins, sets, keymaps, etc. are loaded
 require("config.autocmd")
 require("config.usercmd")
+
+-- Check if mason tools have been installed
+-- Check if the file exists
+local filename = vim.fn.stdpath("data") .. "mason_tools_installed"
+local file = io.open(filename, "r")
+if file then
+	-- File exists, close it
+	file:close()
+else
+	-- File doesn't exist, create it
+	file = io.open(filename, "w")
+	if file then
+		file:close()
+		vim.cmd("MasonToolsInstall")
+		print("Mason tools have been installed!" .. filename)
+	else
+		print("Something went wrong...")
+	end
+end

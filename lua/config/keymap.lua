@@ -20,8 +20,12 @@ map("n", "+", "<cmd>horizontal resize +5<CR>", { desc = "Make window larger hori
 map("n", "_", "<cmd>horizontal resize -5<CR>", { desc = "Make window smaller horizontally" })
 
 -- Improve half-page up and down
-map("n", "<C-u>", "<C-u>zz", { noremap = true, desc = "Half page up also recenters text" })
-map("n", "<C-d>", "<C-d>zz", { noremap = true, desc = "Half page down also recenters text" })
+map("n", "<C-u>", "<C-u>zz", { noremap = true, desc = "Half page up and recenter text", buffer = true })
+map("n", "<C-d>", "<C-d>zz", { noremap = true, desc = "Half page down and recenter text", buffer = true })
+
+-- Improve next and previous jump list
+map("n", "<C-o>", "<C-o>zz", { noremap = true, desc = "Previous jump list and recenter text" })
+map("n", "<C-i>", "<C-i>zz", { noremap = true, desc = "Next jump list and recenter text" })
 
 -- Open file under cursor
 map("", "<F3>", "<cmd>e <cfile><CR>", { noremap = true, desc = "Open file under the cursor" })
@@ -55,32 +59,36 @@ map("n", "<leader>yw", function()
 	vim.fn.setpos(".", save_cursor)
 end, { noremap = true, desc = "Remove extra whitespace from file" })
 
--- Profiling
-map("n", "<leader><leader>ps", function()
-	vim.cmd([[
-		:profile start /tmp/nvim-profile.log
-		:profile func *
-		:profile file *
-	]])
-end, { desc = "Profile Start" })
+-- -- Profiling
+-- map("n", "<leader><leader>ps", function()
+-- 	vim.cmd([[
+-- 		:profile start /tmp/nvim-profile.log
+-- 		:profile func *
+-- 		:profile file *
+-- 	]])
+-- end, { desc = "Profile Start" })
+--
+-- map("n", "<leader><leader>pe", function()
+-- 	vim.cmd([[
+-- 		:profile stop
+-- 		:e /tmp/nvim-profile.log
+-- 	]])
+-- end, { desc = "Profile Stop" })
+--
+-- map("n", "<leader><leader>pc", function()
+-- 	vim.cmd([[
+-- 		:profile continue
+-- 		:e /tmp/nvim-profile.log
+-- 	]])
+-- end, { desc = "Profile Continue" })
+--
+-- map("n", "<leader><leader>pp", function()
+-- 	vim.cmd([[
+-- 		:profile pause
+-- 		:e /tmp/nvim-profile.log
+-- 	]])
+-- end, { desc = "Profile Pause" })
 
-vim.keymap.set("n", "<leader><leader>pe", function()
-	vim.cmd([[
-		:profile stop
-		:e /tmp/nvim-profile.log
-	]])
-end, { desc = "Profile End" })
-
-vim.keymap.set("n", "<leader><leader>pc", function()
-	vim.cmd([[
-		:profile continue
-		:e /tmp/nvim-profile.log
-	]])
-end, { desc = "Profile End" })
-
-vim.keymap.set("n", "<leader><leader>pp", function()
-	vim.cmd([[
-		:profile pause
-		:e /tmp/nvim-profile.log
-	]])
-end, { desc = "Profile End" })
+-- Copy-Paste
+map({ "n", "v" }, "<leader><leader>y", '"*y', { noremap = true, desc = "Copy to the system clipboard" })
+map({ "n", "v" }, "<leader><leader>p", '"*p', { noremap = true, desc = "Paste from the system clipboard" })
