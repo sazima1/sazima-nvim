@@ -12,8 +12,9 @@ return {
 	cmd = { "DapInstall", "DapUninstall" },
 	opts = {
 		ensure_installed = {
-			"python",
 			"bash",
+			"python",
+			"lua",
 		},
 	},
 }

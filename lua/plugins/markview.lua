@@ -26,22 +26,31 @@ return {
 				-- headings = presets.headings.simple,
 				checkboxes = presets.checkboxes.nerd,
 				list_items = {
-					shift_width = 2,
-					-- indent_size = 4,
-					-- marker_minus = { add_padding = false },
-					-- marker_plus = { add_padding = false },
-					-- marker_star = { add_padding = false },
-					-- marker_dot = { add_padding = false },
-					-- marker_parenthesis = { add_padding = false },
+					-- shift_width = 2,
+					indent_size = 4,
+					marker_minus = { add_padding = false },
+					marker_plus = { add_padding = false },
+					marker_star = { add_padding = false },
+					marker_dot = { add_padding = false },
+					marker_parenthesis = { add_padding = false },
 				},
 			},
 		}
+		opts.markdown.headings.heading_1.icon = "# "
+		opts.markdown.headings.heading_2.icon = "## "
+		opts.markdown.headings.heading_3.icon = "### "
+		opts.markdown.headings.heading_4.icon = "#### "
+		opts.markdown.headings.heading_5.icon = "##### "
+		opts.markdown.headings.heading_6.icon = "###### "
 		-- opts.markdown.headings.heading_1.icon = " "
 		-- opts.markdown.headings.heading_2.icon = " "
 		-- opts.markdown.headings.heading_3.icon = " "
-		opts.markdown.headings.heading_1.icon = " "
-		opts.markdown.headings.heading_2.icon = " "
-		opts.markdown.headings.heading_3.icon = " "
+		-- opts.markdown.headings.heading_4.icon = " "
+		-- opts.markdown.headings.heading_5.icon = " "
+		-- opts.markdown.headings.heading_6.icon = " "
+		-- opts.markdown.headings.heading_1.icon = " "
+		-- opts.markdown.headings.heading_2.icon = " "
+		-- opts.markdown.headings.heading_3.icon = " "
 
 		-- opts.markdown.headings.heading_1.icon = "│ "
 		-- opts.markdown.headings.heading_2.icon = "││ "

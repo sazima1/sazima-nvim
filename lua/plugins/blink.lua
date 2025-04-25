@@ -27,7 +27,7 @@ return {
 		cmdline = {
 			completion = {
 				ghost_text = {
-					enabled = true,
+					enabled = false,
 				},
 			},
 		},
@@ -49,15 +49,15 @@ return {
 						{ "kind" },
 					},
 				},
-				auto_show = false,
+				auto_show = true,
 			},
-			ghost_text = {
-				enabled = true,
-				show_with_menu = true,
-			},
+			-- ghost_text = {
+			-- 	enabled = false,
+			-- 	show_with_menu = true,
+			-- },
 		},
 		appearance = {
-			use_nvim_cmp_as_default = true,
+			use_nvim_cmp_as_default = true, -- for plugins that support highlighting in nvim-cmp but not blink.cmp
 			nerd_font_variant = "mono",
 		},
 		signature = {

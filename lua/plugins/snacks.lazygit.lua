@@ -13,7 +13,7 @@ return {
 		{
 			"<leader>gl",
 			function()
-				Snacks.lazygit()
+				Snacks.lazygit({ win = { width = 0.99, height = 0.99 } })
 			end,
 			mode = { "n" },
 			desc = "Open LazyGit",

@@ -7,7 +7,11 @@ return {
 	"folke/todo-comments.nvim",
 	dependencies = { "nvim-lua/plenary.nvim" },
 	lazy = false,
-	opts = {},
+	opts = {
+		highlight = {
+			exclude = { "bigfile" },
+		},
+	},
 	keys = {
         -- stylua: ignore start
 		{ "]t", function() require("todo-comments").jump_next() end, mode = "n", desc = "Next todo comment" },

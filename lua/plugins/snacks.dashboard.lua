@@ -6,6 +6,7 @@ Notes:
   - This is only the dashboard component of the Snacks plugin
 --]]
 local DASHBOARD_WIDTH = 80
+local FILLER_STRING = "·"
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -26,12 +27,12 @@ return {
 			width = DASHBOARD_WIDTH,
 			preset = {
 				keys = {
-					{ icon = " ", key = "f", desc = "Find File " .. ("."):rep(DASHBOARD_WIDTH - 19), action = ":lua Snacks.dashboard.pick('smart')" },
-					{ icon = " ", key = "g", desc = "Find Text " .. ("."):rep(DASHBOARD_WIDTH - 19), action = ":lua Snacks.dashboard.pick('live_grep')" },
-					{ icon = " ", key = "n", desc = "New File " .. ("."):rep(DASHBOARD_WIDTH - 18), action = ":lua vim.ui.input( { prompt = 'New File Name' }, function(input) vim.cmd('edit ' .. input .. ' | startinsert') end )" },
-					{ icon = " ", key = "c", desc = "Config " .. ("."):rep(DASHBOARD_WIDTH - 16), action = ":lua vim.cmd([[execute 'cd ' stdpath('config')]]) Snacks.dashboard.pick('smart', {cwd = vim.fn.stdpath('config')})" },
-					{ icon = "󰒲 ", key = "L", desc = "Lazy " .. ("."):rep(DASHBOARD_WIDTH - 14), action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-					{ icon = " ", key = "q", desc = "Quit " .. ("."):rep(DASHBOARD_WIDTH - 14), action = ":qa" },
+					{ icon = " ", key = "f", desc = "Find File " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 19), action = ":lua Snacks.dashboard.pick('smart')" },
+					{ icon = " ", key = "g", desc = "Find Text " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 19), action = ":lua Snacks.dashboard.pick('live_grep')" },
+					{ icon = " ", key = "n", desc = "New File " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 18), action = ":lua vim.ui.input( { prompt = 'New File Name' }, function(input) vim.cmd('edit ' .. input .. ' | startinsert') end )" },
+					{ icon = " ", key = "c", desc = "Config " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 16), action = ":lua vim.cmd([[execute 'cd ' stdpath('config')]]) Snacks.dashboard.pick('smart', {cwd = vim.fn.stdpath('config')})" },
+					{ icon = "󰒲 ", key = "L", desc = "Lazy " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 14), action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+					{ icon = " ", key = "q", desc = "Quit " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 14), action = ":qa" },
 				},
 			},
 			formats = {
@@ -79,17 +80,15 @@ return {
 					local dir, file = fname:match("^(.*)/(.+)$")
 					local num_spaces = DASHBOARD_WIDTH - 5 - 4 - 2 - vim.api.nvim_strwidth(fname) -- 5 is the extra space added by icons and selection numbers, 4 is the extra space added by "[ " and " ]", 2 is the extra space before and after dot leaders
 					local filler_string_full
-					local filler_string = "."
-					print(num_spaces)
 					if num_spaces == 0 or num_spaces == -2 then
 						filler_string_full = ""
 					elseif num_spaces == -1 then
 						filler_string_full = " "
 					else
-						filler_string_full = filler_string:rep(num_spaces)
+						filler_string_full = FILLER_STRING:rep(num_spaces)
 						filler_string_full = " " .. filler_string_full .. " "
 					end
-					return dir and { { dir .. "/", hl = "dir" }, { filler_string_full }, { file, hl = "file" } } or { { fname, hl = "file" } }
+					return dir and { { dir .. "/", hl = "dir" }, { filler_string_full, hl = "dir" }, { file, hl = "file" } } or { { fname, hl = "file" } }
 				end,
 			},
 			sections = {
@@ -108,16 +107,6 @@ return {
 					},
 					align = "center",
 					padding = 3,
-				},
-				{
-					title = "Actions",
-					padding = 1,
-					align = "center",
-				},
-				{
-					section = "keys",
-					padding = 1,
-					align = "left",
 				},
 				{
 					text = {
@@ -150,11 +139,25 @@ return {
 				},
 				{
 					section = "projects",
+					padding = 1,
+				},
+				{
+					title = "Actions",
+					padding = 1,
+					align = "center",
+				},
+				{
+					section = "keys",
 					padding = 3,
+					align = "center",
 				},
 				{
 					section = "startup",
 					padding = 1,
+					align = "center",
+				},
+				{
+					text = { "v0.11.0", hl = "dir" },
 					align = "center",
 				},
 			},

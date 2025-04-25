@@ -7,7 +7,7 @@ set.relativenumber = false
 set.number = true
 set.belloff = "all"
 set.splitright = true
-set.mouse = "i"
+set.mouse = "a"
 set.backup = false
 set.fileformats = "unix,dos"
 
@@ -32,8 +32,25 @@ set.sessionoptions = "blank,buffers,curdir,folds,globals,help,localoptions,optio
 set.tabpagemax = 1000
 
 -- folding
-set.foldmethod = "manual"
-set.foldmarker = "{{{,}}}"
+-- set.foldmethod = "manual"
+-- set.foldmarker = "{{{,}}}"
+set.foldcolumn = "1"
+set.foldmethod = "expr"
+set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.o.fillchars = [[eob: ,foldsep: ,fold:,foldopen:,foldclose:]]
+vim.opt.foldtext = "v:lua.MyFoldText()"
+
+function MyFoldText()
+	local line = vim.fn.getline(vim.v.foldstart) -- Get the text of the first line in the fold
+	local folded_lines = vim.v.foldend - vim.v.foldstart + 1 -- Calculate the number of folded lines
+	return line .. "    " .. folded_lines .. " lines "
+end
+vim.o.foldtext = "v:lua.MyFoldText()"
+
+set.foldnestmax = 3
+set.foldlevel = 99
+set.foldlevelstart = 99
 
 -- cursor and typing behavior
 set.wrap = false
@@ -50,6 +67,7 @@ set.smartcase = true
 set.termguicolors = true
 set.showtabline = 0
 set.laststatus = 3
+set.winborder = "rounded"
 
 -- clipboard with osc52 (check terminal support https://mil.ad/blog/2024/remote-clipboard.html). We need to do a different paste option
 if vim.env.SSH_TTY then

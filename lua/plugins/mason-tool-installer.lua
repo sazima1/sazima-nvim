@@ -28,9 +28,8 @@ return {
 			"markdown-oxide",
 			"markdownlint",
 			"marksman",
-			"mypy",
+			--mypy should be installed per-venv
 			"prettierd",
-			"pylint",
 			"ruff",
 			"selene",
 			"shellcheck",

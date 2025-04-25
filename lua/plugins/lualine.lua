@@ -38,14 +38,25 @@ return {
 			for _, client in pairs(clients) do
 				table.insert(c, client.name)
 			end
-			return " " .. table.concat(c, ",")
+			return "  " .. table.concat(c, ", ")
 		end
 		local opts = {
 			options = {
 				globalstatus = true,
+				disabled_filetypes = {
+					winbar = {
+						"dap-view",
+						"dap-repl",
+						"dap-view-term",
+						"snacks_dashboard",
+					},
+					statusline = {
+						"snacks_dashboard",
+					},
+				},
 				component_separators = { left = "", right = "" },
 				-- component_separators = { left = "│", right = "│" },
-				section_separators = { left = "▌", right = "▐" },
+				section_separators = { left = "", right = "" },
 				-- section_separators = { left = "│", right = "│" },
 			},
 			-- Statusline
@@ -72,7 +83,7 @@ return {
 						cond = function()
 							return vim.bo.filetype == "python"
 						end,
-						icon = "󰌠",
+						icon = "󰌠 ",
 					},
 					"branch",
 					{

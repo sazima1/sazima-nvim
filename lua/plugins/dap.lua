@@ -9,9 +9,8 @@ Notes:
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
-		"rcarriga/nvim-dap-ui",
 		"mfussenegger/nvim-dap-python",
-		"nvim-neotest/nvim-nio",
+		-- "igorlfs/nvim-dap-view",
 	},
 	keys = {
 		{
@@ -39,8 +38,7 @@ return {
 			"<leader>de",
 			function()
 				local widgets = require("dap.ui.widgets")
-				local sidebar = widgets.sidebar(widgets.expression)
-				sidebar.open()
+				widgets.centered_float(widgets.expression)
 			end,
 			desc = "View expression",
 		},
@@ -53,40 +51,83 @@ return {
 			desc = "View debug hover",
 		},
 		{
-			"<leader>ds",
+			"<F5>",
 			function()
-				local widgets = require("dap.ui.widgets")
-				local sidebar = widgets.sidebar(widgets.scopes)
-				sidebar.open()
+				require("dap").continue()
 			end,
-			desc = "View scopes",
+			desc = "Start/Continue Debugger",
 		},
 		{
-			"<leader>du",
+			"<F10>",
 			function()
-				require("dapui").toggle()
+				require("dap").step_over()
 			end,
-			desc = "Toggle Debugger UI",
+			desc = "Running Debug: Step over",
+		},
+		{
+			"<F11>",
+			function()
+				require("dap").step_into()
+			end,
+			desc = "Running Debug: Step into",
+		},
+		{
+			"<F12>",
+			function()
+				require("dap").step_out()
+			end,
+			desc = "Running Debug: Step out",
+		},
+		{
+			"<Leader>dl",
+			function()
+				require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+			end,
+			desc = "Set logging breakpoint (in REPL)",
+		},
+		{
+			"<Leader>dr",
+			function()
+				require("dap").run_last()
+			end,
+			desc = "Run last",
+		},
+		{
+			"<Leader>df",
+			function()
+				local widgets = require("dap.ui.widgets")
+				widgets.centered_float(widgets.frames)
+			end,
+			desc = "View Frames",
+		},
+		{
+			"<Leader>dp",
+			function()
+				require("dap.ui.widgets").preview()
+			end,
+			mode = { "n", "v" },
+			desc = "View Preview",
 		},
 	},
 	config = function()
-		-- nvim-dap-ui setup
-		local listener = require("dap").listeners
-		listener.after.event_initialized["dapui_config"] = function()
-			require("dapui").open()
+		local dap, dv = require("dap"), require("dap-view")
+		dap.listeners.before.attach["dap-view-config"] = function()
+			dv.open()
 		end
-		listener.before.event_terminated["dapui_config"] = function()
-			require("dapui").close()
+		dap.listeners.before.launch["dap-view-config"] = function()
+			dv.open()
 		end
-		listener.before.event_exited["dapui_config"] = function()
-			require("dapui").close()
+		dap.listeners.before.event_terminated["dap-view-config"] = function()
+			dv.close(true)
+		end
+		dap.listeners.before.event_exited["dap-view-config"] = function()
+			dv.close(true)
 		end
 
+		-- Fixes jumping issue detailed here https://github.com/igorlfs/nvim-dap-view?tab=readme-ov-file#jumping
+		require("dap").defaults.fallback.switchbuf = "useopen" -- See :h dap-defaults to learn more
+
 		-- nvim-dap-python setup
-		-- fix: E5108: Error executing lua .../Local/nvim-data/lazy/nvim-dap-ui/lua/dapui/controls.lua:14: attempt to index local 'element' (a nil value)
-		-- see: https://github.com/rcarriga/nvim-dap-ui/issues/279#issuecomment-1596258077
-		local dapui = require("dapui")
-		dapui.setup()
 		-- uses the debugypy installation by mason
 		local debugpy_python_path = require("mason-registry").get_package("debugpy"):get_install_path() .. "/venv/bin/python3"
 		require("dap-python").setup(debugpy_python_path, {}) ---@diagnostic disable-line: missing-fields

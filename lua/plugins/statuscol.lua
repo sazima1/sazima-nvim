@@ -11,6 +11,7 @@ return {
 	opts = function()
 		local builtin = require("statuscol.builtin")
 		local opts = {
+			foldfunc = "builtin",
 			relculright = true,
 			ft_ignore = { "snacks_dashboard" },
 			thousands = ",",
@@ -55,8 +56,8 @@ return {
 					click = "v:lua.ScSa",
 					sign = {
 						namespace = { "gitsigns" },
-						-- 	maxwidth = 2,
-						-- 	colwidth = 1,
+						--     maxwidth = 2,
+						--     colwidth = 1,
 						wrap = true,
 					},
 				},
