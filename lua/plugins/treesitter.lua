@@ -5,6 +5,9 @@ Description: Better syntax highlighting with treesitter
 --]]
 return {
 	"nvim-treesitter/nvim-treesitter",
+	dependencies = {
+		"OXY2DEV/markview.nvim",
+	},
 	build = ":TSUpdate",
 	opts = {
 		ensure_installed = {
@@ -35,7 +38,5 @@ return {
 			additional_vim_regex_highlighting = { "ingrid", "truegrid", "diablo" },
 		},
 	},
-	config = function(_, opts)
-		require("nvim-treesitter.configs").setup(opts)
-	end,
+	config = function(_, opts) require("nvim-treesitter.configs").setup(opts) end,
 }
