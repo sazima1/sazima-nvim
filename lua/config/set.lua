@@ -38,15 +38,16 @@ set.foldcolumn = "1"
 set.foldmethod = "expr"
 set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-vim.o.fillchars = [[eob: ,foldsep: ,fold:,foldopen:,foldclose:]]
-vim.opt.foldtext = "v:lua.MyFoldText()"
+-- vim.o.fillchars = [[eob: ,foldsep: ,fold:,foldopen:,foldclose:]]
+set.fillchars = { eob = " ", foldsep = " ", fold = "", foldopen = "", foldclose = "" }
+set.foldtext = "v:lua.MyFoldText()"
 
 function MyFoldText()
 	local line = vim.fn.getline(vim.v.foldstart) -- Get the text of the first line in the fold
 	local folded_lines = vim.v.foldend - vim.v.foldstart + 1 -- Calculate the number of folded lines
 	return line .. "    " .. folded_lines .. " lines "
 end
-vim.o.foldtext = "v:lua.MyFoldText()"
+set.foldtext = "v:lua.MyFoldText()"
 
 set.foldnestmax = 3
 set.foldlevel = 99
@@ -71,9 +72,7 @@ set.winborder = "rounded"
 
 -- clipboard with osc52 (check terminal support https://mil.ad/blog/2024/remote-clipboard.html). We need to do a different paste option
 if vim.env.SSH_TTY then
-	local function wt_paste()
-		return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
-	end
+	local function wt_paste() return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") } end
 	local osc52 = require("vim.ui.clipboard.osc52")
 	vim.g.clipboard = {
 		name = "OSC 52",
@@ -87,6 +86,7 @@ if vim.env.SSH_TTY then
 		},
 	}
 end
+
 -- vimtex and latex
 g.vimtex_view_general_viewer = "okular"
 g.vimtex_view_general_options = "--unique file:@pdf#src:@line@tex"
@@ -101,3 +101,6 @@ g.markdown_fenced_languages = { "diablo", "ingrid" }
 -- spellchecking
 set.spelllang = "en_us"
 set.spell = false
+
+-- LSP
+set.completeopt:append("noselect") -- ...:append acts as +=, so this is `set completeopt+=noselect`
