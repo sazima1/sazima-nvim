@@ -22,7 +22,6 @@ map("n", "_", "<cmd>horizontal resize -5<CR>", { desc = "Make window smaller hor
 -- Improve half-page up and down
 map("n", "<C-u>", "<C-u>zz", { noremap = true, desc = "Half page up and recenter text", buffer = true })
 map("n", "<C-d>", "<C-d>zz", { noremap = true, desc = "Half page down and recenter text", buffer = true })
-
 -- Improve next and previous jump list
 map("n", "<C-o>", "<C-o>zz", { noremap = true, desc = "Previous jump list and recenter text" })
 map("n", "<C-i>", "<C-i>zz", { noremap = true, desc = "Next jump list and recenter text" })
@@ -33,24 +32,86 @@ map("", "<F3>", "<cmd>e <cfile><CR>", { noremap = true, desc = "Open file under 
 -- Macros
 map("n", "Q", "@q", { noremap = true, desc = "Quick macro activation for temporary macros (stored in register q)" })
 
+-- Dumb but easy tabout functionality
+-- local function dumb_tabout()
+-- 	local closers = { ['"'] = true, ["'"] = true, [")"] = true, ["]"] = true, ["}"] = true, [">"] = true }
+-- 	local line = vim.fn.getline(".")
+-- 	local col = vim.fn.col(".") -- 1-based column
+-- 	local len = #line
+--
+-- 	for i = col, len do
+-- 		local c = line:sub(i, i)
+-- 		if closers[c] then
+-- 			-- Move cursor to just after the found closer
+-- 			return "<C-o>" .. i .. "|"
+-- 		end
+-- 	end
+-- 	-- If none found, just insert <C-l>
+-- 	return "<C-l>"
+-- end
+-- map("i", "<C-l>", dumb_tabout, { expr = true, noremap = true })
+
 -- Folding
-map("n", "<leader>a", "za", { noremap = true, desc = "Easier fold toggle combo" })
-map("n", "<leader>A", "zA", { noremap = true, desc = "Easier fold toggle combo" })
+map("n", "<leader>a", "za", { noremap = true, desc = "Toggle fold" })
+map("n", "<leader>A", "zA", { noremap = true, desc = "Toggle recursive fold" })
+map("n", "<leader>m", "zm", { desc = "Fold more" })
+map("n", "<leader>M", "zM", { desc = "Close all folds" })
+map("n", "<leader>r", "zr", { desc = "Fold less" })
+map("n", "<leader>R", "zR", { desc = "Open all folds" })
 
 -- Highlighting
 map("n", "<C-n>", "<cmd>nohl<CR>", { noremap = true, desc = "Turn off highlighting when shown" })
 
 -- toggle wrapping
-map("n", "<leader>w", function()
-	vim.o.wrap = not vim.o.wrap
-end, { noremap = true, desc = "Toggle word wrapping" })
+map("n", "<leader><leader>w", function() vim.o.wrap = not vim.o.wrap end, { noremap = true, desc = "Toggle word wrapping" })
 
 -- Buffer control
 map("n", "<leader>p", "<Cmd>b#<CR>", { noremap = true, desc = "Switch to the previously open buffer (cycle between 2 buffers)" })
-map("n", "<leader>n", "<Cmd>bn<CR>", { noremap = true, desc = "Switch to the next buffer" })
+-- map("n", "<leader>n", "<Cmd>bn<CR>", { noremap = true, desc = "Switch to the next buffer" })
 
 -- Python
-map("n", "<leader>yr", "<Cmd>!python3 %<CR>", { desc = "Run currently open Python file" })
+-- map("n", "<leader>yr", "<Cmd>!python3 %<CR>", { desc = "Run currently open Python file" })
+local function run_current_file_in_float_term()
+	local ft = vim.bo.filetype
+	local file = vim.fn.expand("%:p")
+	local cmd
+
+	if ft == "python" then
+		cmd = "python3 " .. vim.fn.fnameescape(file)
+	elseif ft == "bash" or ft == "sh" then
+		cmd = "bash " .. vim.fn.fnameescape(file)
+	elseif ft == "lua" then
+		cmd = "lua " .. vim.fn.fnameescape(file)
+	else
+		vim.notify("Unsupported filetype: " .. ft, vim.log.levels.ERROR)
+		return
+	end
+
+	-- Floating window config
+	local width = math.floor(vim.o.columns * 0.5)
+	local height = math.floor(vim.o.lines * 0.5)
+	local row = math.floor((vim.o.lines - height) / 2)
+	local col = math.floor((vim.o.columns - width) / 2)
+	local title = { { " Running: ", "Normal" }, { cmd, "Special" }, { " ", "Normal" } }
+
+	local buf = vim.api.nvim_create_buf(false, true)
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = width,
+		height = height,
+		row = row,
+		col = col,
+		style = "minimal",
+		border = "rounded",
+		title = title,
+	})
+
+	-- Set the buffer as current and open terminal
+	vim.api.nvim_set_current_win(win)
+	vim.cmd("terminal " .. cmd)
+	vim.cmd("startinsert")
+end
+map("n", "<leader>yr", run_current_file_in_float_term, { noremap = true, silent = true, desc = "Run current file in floating terminal" })
 
 -- Suspend
 map("n", "<leader><leader>s", "<Cmd>suspend<CR>", { desc = "Suspend Neovim and bring up the parent terminal. Use command `fg` to resume the Neovim session." })
@@ -58,9 +119,7 @@ map("n", "<leader><leader>s", "<Cmd>suspend<CR>", { desc = "Suspend Neovim and b
 -- Remove Whitespace
 map("n", "<leader>yw", function()
 	local save_cursor = vim.fn.getpos(".")
-	pcall(function()
-		vim.cmd([[%s/\s\+$//e]])
-	end)
+	pcall(function() vim.cmd([[%s/\s\+$//e]]) end)
 	vim.fn.setpos(".", save_cursor)
 end, { noremap = true, desc = "Remove extra whitespace from file" })
 
@@ -96,7 +155,3 @@ map({ "n" }, "<leader>xo", function()
 		end
 	end
 end, { desc = "Toggle current line's inline diagnostics" })
-
--- Folding
-vim.keymap.set("n", "<leader>M", "zM", { desc = "Close all folds" })
-vim.keymap.set("n", "<leader>R", "zR", { desc = "Open all folds" })
