@@ -23,9 +23,11 @@ return {
 		},
 		keymaps = {
 			file_panel = {
+				-- Disable duplicate mappings
 				["-"] = false,
 				["S"] = false,
 				["U"] = false,
+				-- New mappings
 				{
 					"n",
 					"a",
@@ -43,7 +45,8 @@ return {
 					end,
 					{ desc = "Stage / unstage all entries" },
 				},
-				{ "n", "c", "<cmd>G commit<CR>", { desc = "Commit staged changes with Fugitive" } },
+				{ "n", "c", "<cmd>Git commit <bar> wincmd J<CR>", { desc = "Commit staged changes with Fugitive" } },
+				{ "n", "A", "<cmd>Git commit --amend <bar> wincmd J<CR>", { desc = "Amend previous commit with Fugitive" } },
 			},
 		},
 	},
@@ -64,7 +67,7 @@ return {
 			end,
 			mode = "n",
 			noremap = true,
-			desc = "Toggle Diffview",
+			desc = "Diffview",
 		},
 		{
 			"<leader>gD",
@@ -83,10 +86,10 @@ return {
 			end,
 			mode = "n",
 			noremap = true,
-			desc = "Toggle Diffview with options",
+			desc = "Diffview with options",
 		},
 		{
-			"<leader>gh",
+			"<leader>gf",
 			function()
 				if next(require("diffview.lib").views) == nil then
 					vim.cmd("DiffviewFileHistory")
@@ -96,10 +99,10 @@ return {
 			end,
 			mode = "n",
 			noremap = true,
-			desc = "Toggle Diffview File History",
+			desc = "Diffview File History",
 		},
 		{
-			"<leader>gH",
+			"<leader>gF",
 			function()
 				if next(require("diffview.lib").views) == nil then
 					vim.ui.input({ prompt = "DiffviewFileHistory [paths] [options]" }, function(options)
@@ -115,7 +118,7 @@ return {
 			end,
 			mode = "n",
 			noremap = true,
-			desc = "Toggle Diffview File History with options",
+			desc = "Diffview File History with options",
 		},
 	},
 }
