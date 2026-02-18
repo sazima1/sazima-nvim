@@ -8,7 +8,7 @@ Notes:
 return {
 	"WhoIsSethDaniel/mason-tool-installer.nvim",
 	dependencies = {
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 	},
 	lazy = true,
 	cmd = { "MasonToolsInstall", "MasonToolsUninstall", "MasonToolsUpdate", "MasonToolsUpdateSync", "MasonToolsClean" },
@@ -30,11 +30,14 @@ return {
 			"marksman",
 			--mypy should be installed per-venv
 			"prettierd",
+			"pyproject-fmt",
 			"ruff",
 			"selene",
 			"shellcheck",
 			"shfmt",
-			"stylua",
+			-- "stylua", -- not installed due to glibc version error. Installed with cargo
+			-- "texlab", -- not installed due to glibc version error. Built manually
+			-- "vale_ls", -- not installed due to glibc version error. Built manually
 			"vim-language-server",
 			"yaml-language-server",
 			"yamlfix",

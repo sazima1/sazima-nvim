@@ -6,7 +6,7 @@ Notes:
   - Paired with Mason Tool Installer
 --]]
 return {
-	"williamboman/mason.nvim",
+	"mason-org/mason.nvim",
 	cmd = "Mason",
 	opts = {
 		ui = {
