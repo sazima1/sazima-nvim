@@ -40,4 +40,5 @@ This will run just fine on SCF LC, but you need a few things:
 3. If you add a new LSP, you need to add it in a couple places:
    - Add it to the "ensure_installed" section of the `mason-tool-installer.lua` config.
    - Add it to the "servers" list in the `lspconfig.lua` config
-     - note
+     + note
+4. There are a few LSPs and code tools that need to be installed manually with tools like Cargo, Pip, NPM, etc. These will make themselves apparent when they aren't installed by Mason Tool Installer, but still needed.
