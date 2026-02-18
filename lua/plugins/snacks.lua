@@ -18,7 +18,7 @@ return {
 			animate = { enabled = false },
 		},
 		input = { enabled = true },
-		notifier = { enabled = true },
+		notifier = { enabled = false },
 		quickfile = { enabled = true },
 		styles = {
 			notification = {
@@ -39,9 +39,7 @@ return {
 		require("snacks").setup(opts)
 
 		local usercmd = vim.api.nvim_create_user_command
-		--stylua: ignore start
 		usercmd("Bd", function() require("snacks").bufdelete() end, {})
 		usercmd("Notifications", function() Snacks.notifier.show_history() end, {})
-		--stylua: ignore end
 	end,
 }

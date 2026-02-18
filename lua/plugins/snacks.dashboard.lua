@@ -7,6 +7,7 @@ Notes:
 --]]
 local DASHBOARD_WIDTH = 80
 local FILLER_STRING = "·"
+local VIM_VERSION = string.format("%d.%d.%d", vim.version().major, vim.version().minor, vim.version().patch)
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -14,9 +15,7 @@ return {
 	keys = {
 		{
 			"<leader><leader>d",
-			function()
-				Snacks.dashboard.open()
-			end,
+			function() Snacks.dashboard.open() end,
 			mode = { "n" },
 			desc = "Open dashboard",
 		},
@@ -27,27 +26,57 @@ return {
 			width = DASHBOARD_WIDTH,
 			preset = {
 				keys = {
-					{ icon = " ", key = "f", desc = "Find File " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 19), action = ":lua Snacks.dashboard.pick('smart')" },
-					{ icon = " ", key = "g", desc = "Find Text " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 19), action = ":lua Snacks.dashboard.pick('live_grep')" },
-					{ icon = " ", key = "n", desc = "New File " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 18), action = ":lua vim.ui.input( { prompt = 'New File Name' }, function(input) vim.cmd('edit ' .. input .. ' | startinsert') end )" },
-					{ icon = " ", key = "c", desc = "Config " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 16), action = ":lua vim.cmd([[execute 'cd ' stdpath('config')]]) Snacks.dashboard.pick('smart', {cwd = vim.fn.stdpath('config')})" },
-					{ icon = "󰒲 ", key = "L", desc = "Lazy " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 14), action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-					{ icon = " ", key = "q", desc = "Quit " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 14), action = ":qa" },
+					{
+						icon = " ",
+						key = "f",
+						desc = "Find File " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 19),
+						action = function() Snacks.dashboard.pick("smart") end,
+					},
+					{
+						icon = " ",
+						key = "g",
+						desc = "Find Text " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 19),
+						action = function() Snacks.dashboard.pick("live_grep") end,
+					},
+					{
+						icon = " ",
+						key = "n",
+						desc = "New File " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 18),
+						action = function() vim.cmd.enew() end,
+					},
+					{
+						icon = " ",
+						key = "c",
+						desc = "Config " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 16),
+						action = function()
+							vim.cmd([[execute 'cd ' stdpath('config')]])
+							Snacks.dashboard.pick("smart", { cwd = vim.fn.stdpath("config") })
+						end,
+					},
+					{
+						icon = "󰒲 ",
+						key = "L",
+						desc = "Lazy " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 14),
+						action = ":Lazy",
+						enabled = package.loaded.lazy ~= nil,
+					},
+					{
+						icon = " ",
+						key = "q",
+						desc = "Quit " .. (FILLER_STRING):rep(DASHBOARD_WIDTH - 14),
+						action = ":qa",
+					},
 				},
 			},
 			formats = {
 				-- copy-pasted and altered from snacks dashboard code
-				key = function(item)
-					return { { "[ ", hl = "special" }, { item.key, hl = "key" }, { " ]", hl = "special" } }
-				end,
+				key = function(item) return { { "[ ", hl = "special" }, { item.key, hl = "key" }, { " ]", hl = "special" } } end,
 
 				-- copy-pasted and altered from snacks dashboard code
 				icon = function(item)
 					if item.file and item.icon == "file" then
 						local try = {
-							function()
-								return require("nvim-web-devicons").get_icon(item.file)
-							end,
+							function() return require("nvim-web-devicons").get_icon(item.file) end,
 						}
 						for _, fn in ipairs(try) do
 							local ok, icon, hl = pcall(fn)
@@ -157,7 +186,7 @@ return {
 					align = "center",
 				},
 				{
-					text = { "v0.11.0", hl = "dir" },
+					text = { "Version: " .. VIM_VERSION, hl = "dir" },
 					align = "center",
 				},
 			},
