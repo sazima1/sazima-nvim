@@ -1,7 +1,4 @@
 return {
-	cmd = { "rust-analyzer" },
-	filetypes = { "rust" },
-	root_markers = {},
 	settings = {
 		["rust-analyzer"] = {
 			-- check = {

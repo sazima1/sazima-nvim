@@ -1,5 +1,4 @@
 return {
-	cmd = { "harper-ls", "--stdio" },
 	filetypes = {
 		"bash",
 		"cmake",
@@ -20,7 +19,6 @@ return {
 		"toml",
 		"typst",
 	},
-	root_markers = {},
 	settings = {
 		["harper-ls"] = {
 			linters = {
