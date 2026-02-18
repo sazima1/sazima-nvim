@@ -32,10 +32,13 @@ return {
 			ruff_fix = {
 				append_args = { "--ignore", "F401" }, -- Don't fix unused imports
 			},
+			stylua = {
+				prepend_args = { "--collapse-simple-statement", "FunctionOnly" },
+			},
 		},
 	},
 	keys = {
-		{ "<leader>yf", '<cmd>lua require("conform").format()<CR>', mode = { "n" }, noremap = true, desc = "Run formatter" },
+		{ "<leader>yf", function() require("conform").format() end, mode = { "n", "v" }, noremap = true, desc = "Run formatter" },
 	},
 	config = function(_, opts)
 		require("conform").setup(opts)
