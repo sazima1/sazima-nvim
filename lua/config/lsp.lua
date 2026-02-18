@@ -40,10 +40,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 		if client.name == "basedpyright" then
 			-- client.server_capabilities.hoverProvider = false
+			-- client.server_capabilities.documentSymbolProvider = false
 		end
 		if client.name == "jedi_language_server" then
 			-- client.server_capabilities.hoverProvider = false
 			client.server_capabilities.renameProvider = false
+			client.server_capabilities.documentSymbolProvider = false
 		end
 		-- if client.name == "ruff" then
 		-- 	client.server_capabilities.hoverProvider = false
@@ -60,20 +62,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local map = vim.keymap.set
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		if client:supports_method("textDocument/inlayHint") then
-			map("n", "gi", function()
-				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-			end, { buffer = true, desc = "Toggle inlay hints" })
+			map("n", "gi", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { buffer = true, desc = "Toggle inlay hints" })
 		end
-        -- stylua: ignore start
-        map("n", "gd",   function() vim.lsp.buf.definition() end,      { buffer = true, desc = "Go to definition" })
-        map("n", "gm",   function() vim.lsp.buf.implementation() end,  { buffer = true, desc = "Go to implementation" })
-        map("n", "go",   function() vim.lsp.buf.type_definition() end, { buffer = true, desc = "Go to type definition" })
-        map("n", "gs",   function() vim.lsp.buf.signature_help() end,  { buffer = true, desc = "Show signature help" })
-        map("n", "gh",   function() vim.lsp.buf.hover() end,           { buffer = true, desc = "Open LSP hover help" })
-        map("i", "<C-h>",   function() vim.lsp.buf.hover() end,           { buffer = true, desc = "Open LSP hover help" })
-        map("n", "<F2>", function() vim.lsp.buf.rename() end,          { buffer = true, desc = "Rename component under cursor" })
-        map("n", "<F4>", function() vim.lsp.buf.code_action() end,     { buffer = true, desc = "Run code action" })
-		-- stylua: ignore end
+		map("n", "gd", function() Snacks.picker.lsp_definitions() end, { buffer = true, desc = "Go to definition" })
+		map("n", "gD", function() Snacks.picker.lsp_declarations() end, { buffer = true, desc = "Go to declaration" })
+		map("n", "gr", function() Snacks.picker.lsp_references() end, { buffer = true, desc = "Go to references" })
+		map("n", "gI", function() Snacks.picker.lsp_implementations() end, { buffer = true, desc = "Go to implementation" })
+		map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { buffer = true, desc = "Go to type definition" })
+		map("n", "go", function() Snacks.picker.lsp_symbols() end, { buffer = true, desc = "Go to type definition" })
+		map("n", "H", function() vim.lsp.buf.signature_help() end, { buffer = true, desc = "Show signature help" })
+		map("n", "K", function() vim.lsp.buf.hover() end, { buffer = true, desc = "Open LSP hover help" })
+		map("i", "<C-h>", function() vim.lsp.buf.hover() end, { buffer = true, desc = "Open LSP hover help" })
+		map("n", "<F2>", function() vim.lsp.buf.rename() end, { buffer = true, desc = "Rename component under cursor" })
+		map("n", "<F4>", function() vim.lsp.buf.code_action() end, { buffer = true, desc = "Run code action" })
 	end,
 })
 
@@ -90,9 +91,7 @@ vim.diagnostic.config({
 	},
 	float = {
 		border = "rounded",
-		format = function(d)
-			return ("%s (%s) [%s]"):format(d.message, d.source, d.code or d.user_data.lsp.code)
-		end,
+		format = function(d) return ("%s (%s) [%s]"):format(d.message, d.source, d.code or d.user_data.lsp.code) end,
 	},
 	underline = true,
 	jump = {
