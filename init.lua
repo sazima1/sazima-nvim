@@ -80,3 +80,14 @@ else
 	end
 end
 -------------------------------------------------------------
+local parsers = require("nvim-treesitter.parsers")
+local install = require("nvim-treesitter.install")
+
+local wanted = { "python", "markdown", "markdown_inline" }
+
+for _, lang in ipairs(wanted) do
+	local parser_config = parsers.get_parser_configs()[lang]
+	if parser_config and not parsers.has_parser(lang) then
+		install.commands.TSInstall(lang)
+	end
+end
