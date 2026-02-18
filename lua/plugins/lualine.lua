@@ -59,14 +59,13 @@ return {
 				section_separators = { left = "", right = "" },
 				-- section_separators = { left = "│", right = "│" },
 			},
+
 			-- Statusline
 			sections = {
 				lualine_b = {
 					-- { "filename", path = 3 },
 					{
-						function()
-							return vim.fn.getcwd() .. "/"
-						end,
+						function() return vim.fn.getcwd() .. "/" end,
 						icon = " ",
 					},
 					{
@@ -80,22 +79,14 @@ return {
 							local venv = get_venv("CONDA_DEFAULT_ENV") or get_venv("VIRTUAL_ENV") or "NO ENV"
 							return venv
 						end,
-						cond = function()
-							return vim.bo.filetype == "python"
-						end,
+						cond = function() return vim.bo.filetype == "python" end,
 						icon = "󰌠 ",
 					},
 					"branch",
 					{
-						function()
-							return "  " .. require("dap").status()
-						end,
-						cond = function()
-							return package.loaded["dap"] and require("dap").status() ~= ""
-						end,
-						color = function()
-							return "Error"
-						end,
+						function() return "  " .. require("dap").status() end,
+						cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+						color = function() return "Error" end,
 					},
 				},
 				lualine_x = {
@@ -106,6 +97,7 @@ return {
 					"progress",
 				},
 			},
+
 			-- Winbar
 			winbar = {
 				lualine_a = {
