@@ -6,7 +6,7 @@ Description: Linting
 return {
 	"mfussenegger/nvim-lint",
 	dependencies = {
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 	},
 	keys = {
 		{
